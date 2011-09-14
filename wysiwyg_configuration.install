@@ -1,0 +1,213 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function wysiwyg_configuration_install() {
+  //Remove and add the standard input formats for Filtered HTML
+  db_query("DELETE FROM {filters} WHERE format = 1 AND module = 'filter'");
+  
+  if (!db_result(db_query("select count(*) as num from {filters} where format = 1 and module='image_resize_filter' and delta = 0"))) {
+    db_query("INSERT INTO {filters} (format, module, delta, weight) " .
+      "VALUES ('%d', '%s', '%d', %d)",
+      1, 'image_resize_filter', 0, -10);
+  }
+  if (!db_result(db_query("select count(*) as num from {filters} where format = 1 and module='htmlpurifier' and delta = 0"))) {
+    db_query("INSERT INTO {filters} (format, module, delta, weight) " .
+      "VALUES ('%d', '%s', '%d', %d)",
+      1, 'htmlpurifier', 1, -9);
+  }
+	
+	//Imce Profiles
+  $imcesettings = array(
+    1 => array(
+      'name' => 'User-1',
+      'filesize' => 0,
+      'quota' => 0,
+      'tuquota' => 0,
+      'extensions' => '*',
+      'dimensions' => '1000x1000',
+      'filenum' => 0,
+      'directories' => array(
+        0 => array(
+          'name' => '.',
+          'subnav' => 1,
+          'browse' => 1,
+          'upload' => 1,
+          'thumb' => 1,
+          'delete' => 1,
+          'resize' => 1,
+        ),
+      ),
+      'thumbnails' => array(
+        0 => array(
+          'name' => 'Small',
+          'dimensions' => '100x100',
+          'prefix' => 'small_',
+          'suffix' => '',
+        ),
+        1 => array(
+          'name' => 'Medium',
+          'dimensions' => '150x150',
+          'prefix' => 'medium_',
+          'suffix' => '',
+        ),
+        2 => array(
+          'name' => 'Large',
+          'dimensions' => '200x200',
+          'prefix' => 'large_',
+          'suffix' => '',
+        ),
+      ),
+    ),
+    2 => array(
+      'name' => 'Restricted',
+      'usertab' => 0,
+      'filesize' => '0',
+      'quota' => '0',
+      'tuquota' => '0',
+      'extensions' => 'gif png jpg jpeg',
+      'dimensions' => '800x600',
+      'filenum' => '1',
+      'directories' => array(
+        0 => array(
+          'name' => 'u%uid',
+          'subnav' => 0,
+          'browse' => 1,
+          'upload' => 1,
+          'thumb' => 1,
+          'delete' => 0,
+          'resize' => 0,
+        ),
+      ),
+      'thumbnails' => array(
+        0 => array(
+          'name' => 'Small',
+          'dimensions' => '100x100',
+          'prefix' => 'small_',
+          'suffix' => '',
+        ),
+        1 => array(
+          'name' => 'Medium',
+          'dimensions' => '150x150',
+          'prefix' => 'medium_',
+          'suffix' => '',
+        ),
+        2 => array(
+          'name' => 'Large',
+          'dimensions' => '200x200',
+          'prefix' => 'large_',
+          'suffix' => '',
+        ),
+      ),
+    ),
+  );
+  variable_set('imce_profiles', $imcesettings);
+	
+	//Imce Role Profile
+	$imcerolesettings =array(
+    2 => array(
+      'weight' => 11,
+      'pid' => '2',
+    ),
+    1 => array(
+      'weight' => 12,
+      'pid' => '0',
+    ),
+  );
+  variable_set('imce_roles_profiles', $imcerolesettings);
+	
+  //Wysiwyg setup to use ckeditor 
+  $settings = array (
+    'default' => 1,
+    'user_choose' => 0,
+    'show_toggle' => 1,
+    'theme' => 'advanced',
+    'language' => 'en',
+    'buttons' => array (
+      'default' => array (
+        'Bold' => 1,
+        'Italic' => 1,
+        'Underline' => 1,
+        'Strike' => 1,
+        'JustifyLeft' => 1,
+        'JustifyCenter' => 1,
+        'JustifyRight' => 1,
+        'JustifyBlock' => 1,
+        'BulletedList' => 1,
+        'NumberedList' => 1,
+        'Outdent' => 1,
+        'Indent' => 1,
+        'Undo' => 1,
+        'Redo' => 1,
+        'Link' => 1,
+        'Unlink' => 1,
+        'Anchor' => 1,
+        'Image' => 1,
+        'TextColor' => 1,
+        'BGColor' => 1,
+        'Superscript' => 1,
+        'Subscript' => 1,
+        'Blockquote' => 1,
+        'HorizontalRule' => 1,
+        'Cut' => 1,
+        'Copy' => 1,
+        'Paste' => 1,
+        'PasteText' => 1,
+        'RemoveFormat' => 1,
+        'SpecialChar' => 1,
+        'Format' => 1,
+        'Font' => 1,
+        'FontSize' => 1,
+        'Styles' => 1,
+        'Table' => 1,
+        'SelectAll' => 1,
+        'Find' => 1,
+        'Replace' => 1,
+        'SpellChecker' => 1,
+        'Scayt' => 1,
+        'About' => 1,
+      ),
+      'imce' => array (
+        'imce' => 1,
+      ),
+      'drupal' => array (
+        'break' => 1,
+      ),
+    ),
+    'toolbar_loc' => 'top',
+    'toolbar_align' => 'left',
+    'path_loc' => 'bottom',
+    'resizing' => 1,
+    'verify_html' => 1,
+    'preformatted' => 0,
+    'convert_fonts_to_spans' => 1,
+    'remove_linebreaks' => 0,
+    'apply_source_formatting' => 0,
+    'paste_auto_cleanup_on_paste' => 0,
+    'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
+    'css_setting' => 'none',
+    'css_path' => '',
+    'css_classes' => '',
+  );
+  
+  $settings = serialize($settings);
+  if (db_result(db_query("select count(*) as num from {wysiwyg} where format=1"))) {
+    db_query("update {wysiwyg} set editor='ckeditor', settings='%s where format=1", $settings);
+  }
+  else {
+    db_query("insert into {wysiwyg} (format, editor, settings) values(1, 'ckeditor', '%s')", $settings);
+  }
+  if (db_result(db_query("select count(*) as num from {wysiwyg} where format=2"))) {
+    db_query("update {wysiwyg} set editor='ckeditor', settings='%s where format=2", $settings);
+  }
+  else {
+    db_query("insert into {wysiwyg} (format, editor, settings) values(2, 'ckeditor', '%s')", $settings);
+  }
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function wysiwyg_configuration_uninstall() {
+}

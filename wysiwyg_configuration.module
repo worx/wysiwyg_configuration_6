@@ -1,0 +1,3 @@
+<?php
+
+include_once('wysiwyg_configuration.features.inc');
