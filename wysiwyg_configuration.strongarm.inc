@@ -3,22 +3,23 @@
 /**
  * Implementation of hook_strongarm().
  */
-function filterted_html_config_strongarm() {
+function wysiwyg_configuration_strongarm() {
   $export = array();
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'format';
   $strongarm->value = '1';
-
   $export['format'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'htmlpurifier_clear_cache';
   $strongarm->value = 'Clear cache (Warning: Can result in performance degradation)';
-
   $export['htmlpurifier_clear_cache'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -52,12 +53,15 @@ th',
     'AutoFormat.RemoveSpansWithoutAttributes' => '0',
     'CSS.AllowImportant' => '0',
     'CSS.AllowTricky' => '0',
+    'Null_CSS.AllowedFonts' => '1',
     'Null_CSS.AllowedProperties' => '1',
     'CSS.ForbiddenProperties' => '',
     'CSS.MaxImgLength' => '1200px',
     'CSS.Proprietary' => '0',
+    'CSS.Trusted' => '0',
     'Cache.DefinitionImpl' => 'Drupal',
     'Null_Cache.SerializerPath' => '1',
+    'Cache.SerializerPermissions' => '493',
     'Core.AggressivelyFixLt' => '1',
     'Core.CollectErrors' => '0',
     'Core.ColorKeywords' => 'maroon:#800000
@@ -118,6 +122,7 @@ CommonAttributes',
     'HTML.ForbiddenAttributes' => '',
     'HTML.ForbiddenElements' => '',
     'HTML.MaxImgLength' => '1200',
+    'HTML.Nofollow' => '0',
     'HTML.Parent' => 'div',
     'HTML.Proprietary' => '0',
     'HTML.SafeEmbed' => '0',
@@ -129,6 +134,7 @@ CommonAttributes',
     'HTML.Trusted' => '0',
     'HTML.XHTML' => '1',
     'Output.CommentScriptContents' => '1',
+    'Output.FixInnerHTML' => '1',
     'Output.FlashCompat' => '0',
     'Null_Output.Newline' => '1',
     'Output.SortAttr' => '0',
@@ -146,7 +152,7 @@ news',
     'URI.DisableExternal' => '0',
     'URI.DisableExternalResources' => '1',
     'URI.DisableResources' => '0',
-    'URI.Host' => 'profiletest.hostsofamerica.com',
+    'URI.Host' => 'wysiwyg-test2.aegir.meridian-ds.com',
     'URI.HostBlacklist' => '',
     'URI.MakeAbsolute' => '0',
     'Null_URI.Munge' => '1',
@@ -154,29 +160,29 @@ news',
     'Null_URI.MungeSecretKey' => '1',
     'URI.OverrideAllowedSchemes' => '1',
   );
-
   $export['htmlpurifier_config_1'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'htmlpurifier_doublecache';
   $strongarm->value = 0;
-
   $export['htmlpurifier_doublecache'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'htmlpurifier_help_1';
   $strongarm->value = 1;
-
   $export['htmlpurifier_help_1'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'htmlpurifier_version_ours';
   $strongarm->value = '4.3.0';
-
   $export['htmlpurifier_version_ours'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -185,28 +191,28 @@ news',
     'local' => 'local',
     'remote' => 0,
   );
-
   $export['image_resize_filter_image_locations_1'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'image_resize_filter_link_1';
   $strongarm->value = 0;
-
   $export['image_resize_filter_link_1'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'image_resize_filter_link_class_1';
   $strongarm->value = '';
-
   $export['image_resize_filter_link_class_1'] = $strongarm;
+
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'image_resize_filter_link_rel_1';
   $strongarm->value = '';
-
   $export['image_resize_filter_link_rel_1'] = $strongarm;
+
   return $export;
 }
